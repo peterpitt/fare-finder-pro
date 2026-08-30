@@ -42,7 +42,27 @@ const features = [
   },
 ];
 
+function FeatureCard({ feature, index }: { feature: (typeof features)[number]; index: number }) {
+  const { ref, shown } = useReveal<HTMLElement>();
+  return (
+    <article
+      ref={ref}
+      style={{ transitionDelay: `${index * 90}ms` }}
+      className={cn(
+        "reveal rounded-2xl border border-border bg-card p-6 transition-colors hover:border-primary/50",
+        shown && "reveal-in",
+      )}
+    >
+      <div className="text-3xl">{feature.icon}</div>
+      <h2 className="mt-4 text-lg font-semibold">{feature.title}</h2>
+      <p className="text-sm text-primary">{feature.subtitle}</p>
+      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{feature.body}</p>
+    </article>
+  );
+}
+
 function Landing() {
+  const hero = useReveal<HTMLDivElement>();
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5">
