@@ -110,16 +110,8 @@ function Landing() {
         </section>
 
         <section className="mx-auto grid max-w-6xl gap-5 px-5 pb-24 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map((f) => (
-            <article
-              key={f.title}
-              className="rounded-2xl border border-border bg-card p-6 transition-colors hover:border-primary/50"
-            >
-              <div className="text-3xl">{f.icon}</div>
-              <h2 className="mt-4 text-lg font-semibold">{f.title}</h2>
-              <p className="text-sm text-primary">{f.subtitle}</p>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{f.body}</p>
-            </article>
+          {features.map((f, i) => (
+            <FeatureCard key={f.title} feature={f} index={i} />
           ))}
         </section>
       </main>
