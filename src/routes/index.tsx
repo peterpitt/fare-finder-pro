@@ -1,4 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { cn } from "@/lib/utils";
+import { useReveal } from "@/hooks/use-reveal";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -40,7 +42,27 @@ const features = [
   },
 ];
 
+function FeatureCard({ feature, index }: { feature: (typeof features)[number]; index: number }) {
+  const { ref, shown } = useReveal<HTMLElement>();
+  return (
+    <article
+      ref={ref}
+      style={{ transitionDelay: `${index * 90}ms` }}
+      className={cn(
+        "reveal rounded-2xl border border-border bg-card p-6 transition-colors hover:border-primary/50",
+        shown && "reveal-in",
+      )}
+    >
+      <div className="text-3xl">{feature.icon}</div>
+      <h2 className="mt-4 text-lg font-semibold">{feature.title}</h2>
+      <p className="text-sm text-primary">{feature.subtitle}</p>
+      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{feature.body}</p>
+    </article>
+  );
+}
+
 function Landing() {
+  const hero = useReveal<HTMLDivElement>();
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5">
@@ -62,7 +84,10 @@ function Landing() {
             className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[720px] -translate-x-1/2 rounded-full opacity-40 blur-[120px]"
             style={{ background: "var(--gradient-hero)" }}
           />
-          <div className="relative mx-auto max-w-3xl text-center">
+          <div
+            ref={hero.ref}
+            className={cn("reveal relative mx-auto max-w-3xl text-center", hero.shown && "reveal-in")}
+          >
             <span className="inline-flex rounded-full border border-border bg-card px-3 py-1 text-xs text-muted-foreground">
               台北出發 · 東京 / 首爾
             </span>
@@ -85,16 +110,8 @@ function Landing() {
         </section>
 
         <section className="mx-auto grid max-w-6xl gap-5 px-5 pb-24 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map((f) => (
-            <article
-              key={f.title}
-              className="rounded-2xl border border-border bg-card p-6 transition-colors hover:border-primary/50"
-            >
-              <div className="text-3xl">{f.icon}</div>
-              <h2 className="mt-4 text-lg font-semibold">{f.title}</h2>
-              <p className="text-sm text-primary">{f.subtitle}</p>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{f.body}</p>
-            </article>
+          {features.map((f, i) => (
+            <FeatureCard key={f.title} feature={f} index={i} />
           ))}
         </section>
       </main>
