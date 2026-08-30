@@ -84,7 +84,10 @@ function Landing() {
             className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[720px] -translate-x-1/2 rounded-full opacity-40 blur-[120px]"
             style={{ background: "var(--gradient-hero)" }}
           />
-          <div className="relative mx-auto max-w-3xl text-center">
+          <div
+            ref={hero.ref}
+            className={cn("reveal relative mx-auto max-w-3xl text-center", hero.shown && "reveal-in")}
+          >
             <span className="inline-flex rounded-full border border-border bg-card px-3 py-1 text-xs text-muted-foreground">
               台北出發 · 東京 / 首爾
             </span>
