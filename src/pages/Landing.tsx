@@ -1,25 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
+
 import { cn } from "@/lib/utils";
 import { useReveal } from "@/hooks/use-reveal";
-
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Flight Price Notifier — 機票降價通知" },
-      {
-        name: "description",
-        content:
-          "Set a route and a target price — we email you when the fare drops. 監控台北出發熱門航線的最低票價。",
-      },
-      { property: "og:title", content: "Flight Price Notifier — 機票降價通知" },
-      {
-        property: "og:description",
-        content: "Set a route and a target price — we email you when the fare drops.",
-      },
-    ],
-  }),
-  component: Landing,
-});
 
 const features = [
   {
@@ -61,7 +43,7 @@ function FeatureCard({ feature, index }: { feature: (typeof features)[number]; i
   );
 }
 
-function Landing() {
+export default function Landing() {
   const hero = useReveal<HTMLDivElement>();
   return (
     <div className="min-h-screen bg-background text-foreground">

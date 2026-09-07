@@ -1,20 +1,9 @@
-import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+
 import { supabase } from "@/integrations/supabase/client";
 
-export const Route = createFileRoute("/auth")({
-  head: () => ({
-    meta: [
-      { title: "Sign in — Flight Price Notifier" },
-      { name: "description", content: "Sign in to manage your flight fare alerts." },
-      { property: "og:title", content: "Sign in — Flight Price Notifier" },
-      { property: "og:description", content: "Sign in to manage your flight fare alerts." },
-    ],
-  }),
-  component: AuthPage,
-});
-
-function AuthPage() {
+export default function Auth() {
   const navigate = useNavigate();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
@@ -25,10 +14,10 @@ function AuthPage() {
 
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange((_e, session) => {
-      if (session) navigate({ to: "/dashboard", replace: true });
+      if (session) navigate("/app", { replace: true });
     });
     supabase.auth.getSession().then(({ data: s }) => {
-      if (s.session) navigate({ to: "/dashboard", replace: true });
+      if (s.session) navigate("/app", { replace: true });
     });
     return () => data.subscription.unsubscribe();
   }, [navigate]);
